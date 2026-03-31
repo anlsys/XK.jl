@@ -43,24 +43,34 @@
 }
 
 @InProceedings{mumps,
-	author="Amestoy, Patrick R. and others",
-	title="{MUMPS:} A General Purpose Distributed Memory Sparse Solver",
-	booktitle="Applied Parallel Computing. New Paradigms for HPC in Industry and Academia",
-	year="2001",
-	publisher="Springer Berlin Heidelberg",
-	address="Berlin, Heidelberg",
-	pages="121--130",
-	isbn="978-3-540-70734-9"
+    author="Amestoy, Patrick R.
+    and Duff, Iain S.
+    and L'Excellent, Jean-Yves
+    and Koster, Jacko",
+    editor="S{\o}revik, Tor
+    and Manne, Fredrik
+    and Gebremedhin, Assefaw Hadish
+    and Moe, Randi",
+    title="{MUMPS: A General Purpose Distributed Memory Sparse Solver}",
+    booktitle="Applied Parallel Computing. New Paradigms for HPC in Industry and Academia",
+    year="2001",
+    publisher="Springer Berlin Heidelberg",
+    address="Berlin, Heidelberg",
+    pages="121--130",
+    abstract="MUMPS is a public domain software package for the multifrontal solution of large sparse linear systems on distributed memory computers. The matrices can be symmetric positive definite, general symmetric, or unsymmetric, and possibly rank deficient. MUMPS exploits parallelism coming from the sparsity in the matrix and parallelism available for dense matrices. Additionally, large computational tasks are divided into smaller subtasks to enhance parallelism. MUMPS uses a distributed dynamic scheduling technique that allows numerical pivoting and the migration of computational tasks to lightly loaded processors. Asynchronous communication is used to overlap communication with computation. In this paper, we report on recently integrated features and illustrate the present performance of the solver on an SGI Origin 2000 and a CRAY T3E.",
+    isbn="978-3-540-70734-9"
 }
 
-@article{aurora-gemm,
+@INPROCEEDINGS{aurora-gemm,
+  author={Bertoni, Colleen and Applencourt, Thomas and Gao, Longfei and Leggett, Ti},
+  booktitle={2025 IEEE International Parallel and Distributed Processing Symposium Workshops (IPDPSW)},
   title={Millions of Matrix-Multiplications: GEMM Variations on Aurora},
-  author={Colleen Bertoni and Thomas Applencourt and Longfei Gao and Ti Leggett},
-  journal={2025 IEEE International Parallel and Distributed Processing Symposium Workshops (IPDPSW)},
   year={2025},
+  volume={},
+  number={},
   pages={850-856},
-  url={https://api.semanticscholar.org/CorpusID:280652330}
-}
+  keywords={Ion radiation effects;Lower bound;Graphics processing units;Gaussian distribution;Benchmark testing;Particle measurements;Supercomputers;Manufacturing;Magnetosphere;Kernel;Variation;GEMM;Aurora},
+  doi={10.1109/IPDPSW66978.2025.00135}}
 
 @inproceedings{pytorch-compile,
 author = {Ansel, Jason and Yang, Edward and He, Horace and Gimelshein, Natalia and Jain, Animesh and Voznesensky, Michael and Bao, Bin and Bell, Peter and Berard, David and Burovski, Evgeni and Chauhan, Geeta and Chourdia, Anjali and Constable, Will and Desmaison, Alban and DeVito, Zachary and Ellison, Elias and Feng, Will and Gong, Jiong and Gschwind, Michael and Hirsh, Brian and Huang, Sherlock and Kalambarkar, Kshiteej and Kirsch, Laurent and Lazos, Michael and Lezcano, Mario and Liang, Yanbo and Liang, Jason and Lu, Yinghai and Luk, C. K. and Maher, Bert and Pan, Yunjie and Puhrsch, Christian and Reso, Matthias and Saroufim, Mark and Siraichi, Marcos Yukio and Suk, Helen and Zhang, Shunting and Suo, Michael and Tillet, Phil and Zhao, Xu and Wang, Eikan and Zhou, Keren and Zou, Richard and Wang, Xiaodong and Mathews, Ajit and Wen, William and Chanan, Gregory and Wu, Peng and Chintala, Soumith},
@@ -298,7 +308,7 @@ doi = {10.1145/1278177.1278182}
 	pages = {38--53},
 	year = {2009},
 	issn = {0167-8191},
-	doi = {https://doi.org/10.1016/j.parco.2008.10.002},
+	doi = {10.1016/j.parco.2008.10.002},
 	url = {https://www.sciencedirect.com/science/article/pii/S0167819108001117},
 	author = {Alfredo Buttari and Julien Langou and Jakub Kurzak and Jack Dongarra},
 	keywords = {Linear algebra, Mathematical software, High performance computing, Multicore},
