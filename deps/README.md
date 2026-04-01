@@ -9,11 +9,13 @@ This directory contains scripts to build XKBlas and its dependency XKRT (xkrt) f
 ## Overview
 
 The `build_xkblas.jl` script will:
-1. Clone/update XKRT from GitLab (branch: `master`)
-2. Clone/update XKBlas from GitLab (branch: `v2.0`)
+1. Clone/update XKRT
+2. Clone/update XKBlas
 3. Build and install XKRT to a scratch directory
 4. Build and install XKBlas to a scratch directory
 5. Configure `LocalPreferences.toml` to use the locally built libraries
+
+The `generate.jl` script will automatically create bindings to XKRT/XKBlas C API. 
 
 ## Requirements
 
@@ -26,4 +28,3 @@ The `build_xkblas.jl` script will:
 
 - [XKBlas Repository](https://gitlab.inria.fr/xkblas/dev)
 - [XKRT Repository](https://gitlab.inria.fr/xkaapi/dev-v2)
-- Original install script: `../../XKBlas/scripts/install.sh`

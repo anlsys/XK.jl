@@ -2,10 +2,12 @@
 Julia bindings for the XKRT ecosystem.
 It includes the XKBlas library: a composable, performant and portable multi-GPU BLAS library.
 
-See https://github.com/rpereira-dev/xkrt/ for XKRT details
+## Installation
+See `deps/README.md` for installing.
 
-See https://gitlab.inria.fr/xkblas/dev/tree/v2.0 for XKBlas details
+## Usage
+See `examples/` for example programs.
 
-See `deps/README.md` for developing
+## More information
 
-See `examples` for examples
+See https://github.com/rpereira-dev/xkrt/

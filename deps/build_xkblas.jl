@@ -1,12 +1,11 @@
 ####################
 # Build parameters #
 ####################
-#
-# You may want to modify it for your specific system
-#
 
-const XKRT_BRANCH   = "master"
-const XKBLAS_BRANCH = "v2.0"
+# You may want to modify it for your specific system
+
+const XKRT_BRANCH   = "release/v1.0.1"
+const XKBLAS_BRANCH = "release/v2.0.1"
 
 # const build_type="Release"
 # const use_stats="OFF"
@@ -71,10 +70,6 @@ mkpath(xkblas_build_dir)
 #######################
 # Clone XKRT source #
 #######################
-@info "="^60
-@info "Cloning/updating XKRT source (branch: $XKRT_BRANCH)..."
-@info "="^60
-
 @info "="^60
 @info "Cloning/updating XKRT source (branch: $XKRT_BRANCH)..."
 @info "="^60
