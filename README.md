@@ -40,9 +40,6 @@ julia --project -e 'using Pkg; Pkg.test()'
 # Usage
 See `examples/` for more examples.
 
-# Known issues
-If facing crashes, try setting `XKRT_TASK_PREFETCH=0` environment variable.
-
 # See Also
 - [XKBlas Repository](https://gitlab.inria.fr/xkblas/dev/-/tree/v2.0)
 - [XKRT Repository](https://github.com/rpereira-dev/xkrt/)
