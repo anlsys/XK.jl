@@ -1,0 +1,47 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+      - docs
+  pull_request:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1"
+      - uses: julia-actions/cache@v2
+      - name: Install system dependencies
+        run: |
+          # Add hwloc
+          sudo apt-get install -y libhwloc-dev
+
+          # Add LLVM 20 apt repository
+          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+          sudo add-apt-repository "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-20 main"
+          sudo apt-get update
+          sudo apt-get install -y clang-20
+
+          # Make clang-20 the default clang
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-20 100
+          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-20 100
+      - name: Build XKBlas
+        env:
+          XK_DOCS_BUILD: "true"
+          CC: "clang-20"
+          CXX: "clang++-20"
+        run: julia --project=./deps -e 'using Pkg; Pkg.instantiate(); include("./deps/build.jl")'
+      - name: Install dependencies
+        run: julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
+      - name: Build and deploy
+        env:
+          XK_DOCS_BUILD: "true"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: julia --color=no --project=docs/ docs/make.jl

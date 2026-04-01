@@ -7,26 +7,42 @@
 const XKRT_BRANCH   = "release/v1.0.1"
 const XKBLAS_BRANCH = "release/v2.0.1"
 
+# Example Release build
 # const build_type="Release"
 # const use_stats="OFF"
 # const use_shut_up="ON"
 
-const build_type="Debug"
-const use_stats="ON"
-const use_shut_up="OFF"
+# Example Debug build
+build_type="Debug"
+use_stats="ON"
+use_shut_up="OFF"
 
-const use_cuda = "ON"
-cmake_prefix_path = ENV["CUDA_PATH"]
+use_cuda = "ON"
+cmake_prefix_path = get(ENV, "CUDA_PATH", "")
 
-const use_sycl = "OFF"
-const use_ze = "OFF"
-const use_ze_sycl_interop = "OFF"
+use_sycl = "OFF"
+use_ze = "OFF"
+use_ze_sycl_interop = "OFF"
 #cmake_prefix_path = "/usr/include/level_zero"
 
-const use_hip = "OFF"
-#cmake_prefix_path = ENV["ROCM_PATH"]
+use_hip = "OFF"
+cmake_prefix_path = get(ENV, "ROCM_PATH", "")
 
 ############################################################################
+
+# If building for documentation, skip all dependencies
+const is_docs_build = get(ENV, "XK_DOCS_BUILD", "false") == "true"
+if is_docs_build
+    build_type = "Release"
+    use_stats = "OFF"
+    use_shut_up = "ON"
+    use_cuda = "OFF"
+    use_ze   = "OFF"
+    use_sycl = "OFF"
+    use_hip  = "OFF"
+    use_ze_sycl_interop = "OFF"
+    cmake_prefix_path = ""
+end
 
 # build XKBlas with CMake (including XKRT dependency)
 

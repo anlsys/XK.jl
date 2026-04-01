@@ -1,5 +1,5 @@
 using Clang.Generators
-using Clang.LibClang.Clang_jll
+using Clang_jll
 using Scratch
 
 XK_pkg = Base.UUID("8d3f9e88-0651-4e8b-8f79-7d9d5f5f9e88")
@@ -13,6 +13,8 @@ println("Using XK headers in $xkblas_include_dir")
 
 # Load generator options (must include type_map and rename_functions)
 options = load_options(joinpath(@__DIR__, "generator.toml"))
+output_file_path = abspath(@__DIR__, "..", "src", "bindings.jl")
+options["general"]["output_file_path"] = output_file_path
 
 # Collect all headers
 headers = [
@@ -42,10 +44,9 @@ build!(ctx)
 println("bindings.jl generated successfully in src/")
 
 # Remove xkblas_ prefix from function names (but keep @ccall names unchanged)
-bindings_file = joinpath(@__DIR__, "..", "src", "bindings.jl")
-content = read(bindings_file, String)
+content = read(output_file_path, String)
 content = replace(content, r"^function xkblas_(\w+)\("m => s"function \1(")
-write(bindings_file, content)
+write(output_file_path, content)
 
 println("Removed xkblas_ prefix from function names")
 
