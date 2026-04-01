@@ -41,5 +41,5 @@ makedocs(
 
 deploydocs(
     repo      = "github.com/anlsys/XK.jl.git",
-    devbranch = "docs",
+    devbranch = "paper",
 )
