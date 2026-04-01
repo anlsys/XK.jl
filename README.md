@@ -32,8 +32,16 @@ If the installation succeeded, this should run:
 julia examples/blas/gemm.jl
 ```
 
+You can run exhaustive tests with
+```bash
+julia --project -e 'using Pkg; Pkg.test()'
+```
+
 # Usage
 See `examples/` for more examples.
+
+# Known issues
+If facing crashes, try setting `XKRT_TASK_PREFETCH=0` environment variable.
 
 # See Also
 - [XKBlas Repository](https://gitlab.inria.fr/xkblas/dev/-/tree/v2.0)

@@ -4,8 +4,8 @@
 
 # You may want to modify it for your specific system
 
-const XKRT_BRANCH   = "release/v1.0.1"
-const XKBLAS_BRANCH = "release/v2.0.1"
+const XKRT_BRANCH   = "release/v1.0.2"
+const XKBLAS_BRANCH = "release/v2.0.2"
 
 # Example Release build
 # const build_type="Release"

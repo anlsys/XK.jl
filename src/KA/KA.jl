@@ -207,9 +207,9 @@ module KA
         runtime::Ptr{XK.xkrt_runtime_t},
         device::Ptr{XK.xkrt_device_t},
         task::Ptr{XK.xkrt_task_t},
-        queue::Ptr{XK.xkrt_queue_t},
-        command::Ptr{XK.xkrt_command_t},
-        index::XK.xkrt_queue_command_list_counter_t
+        queue::Ptr{XK.xkrt_command_queue_t},
+        command::Ptr{XK.command_t},
+        index::XK.xkrt_command_queue_list_counter_t
     )
         # TODO: doing a lot of illegal stuff here (we are executing within a foreign thread)
         # But it seems to work, by avoiding any Julia runtime calls, but only XKRT calls
@@ -337,9 +337,9 @@ module KA
             (Ptr{XK.xkrt_runtime_t},                # void * runtime
              Ptr{XK.xkrt_device_t},                 # void * device
              Ptr{XK.xkrt_task_t},                   # void * task
-             Ptr{XK.xkrt_queue_t},                  # void * queue
-             Ptr{XK.xkrt_command_t},                # void * cmd
-             XK.xkrt_queue_command_list_counter_t   # xkrt_queue_command_list_counter_t idx (Non-pointer type)
+             Ptr{XK.xkrt_command_queue_t},          # void * queue
+             Ptr{XK.command_t},                     # void * cmd
+             XK.xkrt_command_queue_list_counter_t   # xkrt_command_queue_list_counter_t idx (Non-pointer type)
             )
         )
 
@@ -428,7 +428,7 @@ module KA
 
     # Spawn a task to the given device, with the given XK.KA format and kernel arguments
     function device_async(
-        device_global_id::XK.xkrt_device_global_id_t,
+        device_unique_id::XK.xkrt_device_unique_id_t,
         fmt::FormatStruct,
         kernel_args...
     )
@@ -608,7 +608,7 @@ module KA
         ##################
 
         XK.device_async(
-            device_global_id,
+            device_unique_id,
             fmt.fmtid,
             set_accesses=set_accesses,
             args=task_args, args_size=task_args_size,
@@ -618,8 +618,8 @@ module KA
 
     # device_async wrapper to automatically target device 1
     function device_async(fmt::FormatStruct, kernel_args...)
-        device_global_id = XK.xkrt_device_global_id_t(1)
-        return XK.KA.device_async(device_global_id, fmt, kernel_args...)
+        device_unique_id = XK.xkrt_device_unique_id_t(1)
+        return XK.KA.device_async(device_unique_id, fmt, kernel_args...)
     end
 
     # Note: No 'using MacroTools' needed now!

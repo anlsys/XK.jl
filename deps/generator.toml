@@ -206,3 +206,7 @@ ignore_header_guards_with_suffixes = []
 
 # if true, ignore those pure definition macros in the C code
 ignore_pure_definition = true
+
+[codegen.macro_integer_overflow]
+# rewrite  T(-1)  →  -1 % T  for unsigned typedef aliases
+wrap_with_modulo = true

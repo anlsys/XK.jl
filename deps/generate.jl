@@ -41,12 +41,21 @@ ctx = create_context(headers, args, options)
 # Generate bindings
 build!(ctx)
 
-println("bindings.jl generated successfully in src/")
+#----------------------------
+# Post-process
+#----------------------------
 
-# Remove xkblas_ prefix from function names (but keep @ccall names unchanged)
+println("bindings.jl generated successfully in src/ -- Post processing...")
+
+# 1. fix C-style wrapping casts on unsigned typedefs
+src = read(output_file_path, String)
+src = replace(src, r"(\w+)\((-\d+)\)" => s"\2 % \1")    # Rewrite SomeType(-N) with -N % SomeType
+write(output_file_path, src)
+println("Fixed negative number casts to unsigned types")
+
+# 2. Remove xkblas_ prefix from function names (but keep @ccall names unchanged)
 content = read(output_file_path, String)
 content = replace(content, r"^function xkblas_(\w+)\("m => s"function \1(")
 write(output_file_path, content)
-
 println("Removed xkblas_ prefix from function names")
 

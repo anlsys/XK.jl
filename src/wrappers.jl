@@ -23,7 +23,7 @@ end
 #   see https://docs.julialang.org/en/v1/manual/calling-c-and-fortran-code/#Thread-safety
 #
 function device_async(
-    device_global_id::xkrt_device_global_id_t,
+    device_unique_id::xkrt_device_unique_id_t,
     fmt_or_func::Union{xkrt_task_format_id_t, Function};
     set_accesses::Union{Function,Nothing}=nothing,
     args=C_NULL,
@@ -47,7 +47,7 @@ function device_async(
     if fmt_or_func isa xkrt_task_format_id_t
         XK.xkrt_task_spawn_generic(
             runtime,
-            device_global_id,
+            device_unique_id,
             flags,
             fmt_or_func::xkrt_task_format_id_t,
             args, args_size,
@@ -61,7 +61,7 @@ function device_async(
         _host_async_refs[fptr] = args  # preserve Ref until trampoline executed
         XK.Logger.fatal("TODO: 2 args here, the function body and user parameter")
         # XK.async_generic_with_format(
-        #     device_global_id,
+        #     device_unique_id,
         #     fmt_or_func::xkrt_task_format_id_t,
         #     flags,
         #     args, args_size,
