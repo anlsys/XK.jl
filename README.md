@@ -18,8 +18,14 @@ Installing XK.jl is currently manual.
 - Edit the header of `deps/build_xkblas.jl` to your convenience
 - Run `julia --project=./deps -e 'using Pkg; Pkg.instantiate(); include("./deps/build.jl")'`
 
+## Testing
+If installation succeeded, this should run:
+```bash
+julia examples/blas/gemm.jl
+```
+
 # Usage
-See `examples/` for example programs.
+See `examples/` for more examples.
 
 # See Also
 - [XKBlas Repository](https://gitlab.inria.fr/xkblas/dev/-/tree/v2.0)
