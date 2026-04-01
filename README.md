@@ -15,11 +15,13 @@ Installing XK.jl is currently manual.
 - hwloc library
 
 ## Steps
+
 - Edit the header of `deps/build_xkblas.jl` to your convenience
+- Be sure to be using a C++20 compatible compiler (i.e., maybe `export CC=clang CXX=clang++`)
 - Run `julia --project=./deps -e 'using Pkg; Pkg.instantiate(); include("./deps/build.jl")'`
 
 ## Testing
-If installation succeeded, this should run:
+If th einstallation succeeded, this should run:
 ```bash
 julia examples/blas/gemm.jl
 ```
