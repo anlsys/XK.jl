@@ -26,9 +26,11 @@ use_ze_sycl_interop = "OFF"
 #cmake_prefix_path = "/usr/include/level_zero"
 
 use_hip = "OFF"
-cmake_prefix_path = get(ENV, "ROCM_PATH", "")
+# cmake_prefix_path = get(ENV, "ROCM_PATH", "")
 
-############################################################################
+########################
+# DO NOT MODIFY BELLOW #
+########################
 
 # If building for documentation, skip all dependencies
 const is_docs_build = get(ENV, "XK_DOCS_BUILD", "false") == "true"
