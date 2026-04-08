@@ -37,6 +37,16 @@
     emphstyle={[1]\color{lightpurple}},
 }
 
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=mBlue,
+    citecolor=mGreen,
+    filecolor=mCyan,
+    urlcolor=mGreen
+}
+
 \begin{document}
 
 \input{header}
@@ -715,29 +725,43 @@ This research also used resources of the Argonne Leadership Computing Facility a
 
 % Appendix for matrices
 \appendix
+
 \section{Matrices} \label{sec:appendix-matrices}
 
-The following figures are visualization of non-zero elements from matrices similar to the one used in table~\ref{tab:multi-gpu}.
+The following figures are visualization of non-zero elements from matrices similar to the one used in Table~\ref{tab:multi-gpu}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=\linewidth]{figures/matrices/m1.pdf}
-    \caption{A matrix $M_1$ of size $n=9,261$ and $62,181$ non-zeroes}
-    \label{fig:m1}
-\end{figure}
+    % Row 1, Left
+    \begin{minipage}{0.48\columnwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/matrices/m1.pdf}
+        \caption{A matrix $M_1$ of size $n=9,261$ and $62,181$ non-zeroes}
+        \label{fig:m1}
+    \end{minipage}
+    \hfill
+    % Row 1, Right
+    \begin{minipage}{0.48\columnwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/matrices/m2.pdf}
+        \caption{A matrix $M_2$ of size $n=540$ and $8,784$ non-zeroes}
+        \label{fig:m2}
+    \end{minipage}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\linewidth]{figures/matrices/m2.pdf}
-    \caption{A matrix $M_2$ of size $n=540$ and $8,784$ non-zeroes}
-    \label{fig:m2}
-\end{figure}
+    \vspace{2em} % Vertical space between rows
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\linewidth]{figures/matrices/m3.png}
-    \caption{A matrix $M_3$ of size $n=107,811$ and $64,701,513$ non-zeroes}
-    \label{fig:m3}
+    % Row 2, Left
+    \begin{minipage}{0.48\columnwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/matrices/m3.png}
+        \caption{A matrix $M_3$ of size $n=107,811$ and $64,701,513$ non-zeroes}
+        \label{fig:m3}
+    \end{minipage}
+    \hfill
+    % Row 2, Right (Empty slot)
+    \begin{minipage}{0.48\columnwidth}
+        ~ % Empty space to maintain the 2x2 grid structure
+    \end{minipage}
 \end{figure}
 
 \end{document}
