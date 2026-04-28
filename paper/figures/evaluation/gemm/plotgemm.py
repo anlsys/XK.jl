@@ -52,7 +52,7 @@ def main():
                     linestyle=linestyles[i])
 
     ax.set_xlabel('Matrix Size (n)', fontsize=20)
-    ax.set_ylabel('TFLOP/s', fontsize=20)
+    ax.set_ylabel('Performance (TFLOP/s)', fontsize=20)
     ax.set_xscale('log', base=2)
     ax.set_yscale('log')
     ax.grid(True, which='both', alpha=0.3)
@@ -61,7 +61,7 @@ def main():
 
     # Set x-axis tick labels to actual values instead of powers of 2
     from matplotlib.ticker import FuncFormatter
-    ax.xaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{int(x)}'))
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{int(x):,}'))
 
     # Format the plot
     plt.tight_layout()

@@ -46,8 +46,8 @@ def plot_spmv_performance(csv_file):
 
     # Define styles for different ngpus
     styles = {
-        1: {'color': 'blue', 'linestyle': '-', 'marker': 'o', 'label': 'Performance (1 H100)'},
-        4: {'color': 'red', 'linestyle': '--', 'marker': 's', 'label': 'Performance (4 H100s)'}
+        1: {'color': 'blue', 'linestyle': '-', 'marker': 'o', 'label': '1 H100'},
+        4: {'color': 'red', 'linestyle': '--', 'marker': 's', 'label': '4 H100s'}
     }
 
     # Plot performance curves with error bars
@@ -117,6 +117,10 @@ def plot_spmv_performance(csv_file):
     ax3.set_xticks(unique_n)
     ax3.set_xticklabels([f'{int(nnz):,}' for nnz in nnz_values])
     ax3.tick_params(axis='x', labelsize=14, labelrotation=15)
+
+    # Set x-axis tick labels to actual values instead of powers of 2
+    from matplotlib.ticker import FuncFormatter
+    ax1.xaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{int(x):,}'))
 
     # Add legends
     lines1, labels1 = ax1.get_legend_handles_labels()

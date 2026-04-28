@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.33624777"
-     inkscape:cx="1197.034"
-     inkscape:cy="1247.5919"
+     inkscape:zoom="0.23776308"
+     inkscape:cx="746.54148"
+     inkscape:cy="1255.4514"
      inkscape:window-width="1850"
      inkscape:window-height="1016"
      inkscape:window-x="0"
@@ -1513,7 +1513,7 @@
            x="205.80791"
            y="488.00061">WaR  on B<tspan
    style="font-size:7.21455px;baseline-shift:sub;stroke-width:0.277483"
-   id="tspan379269">0,0</tspan></tspan></text>
+   id="tspan379269">0,1</tspan></tspan></text>
       <text
          xml:space="preserve"
          style="font-style:normal;font-weight:normal;font-size:11.0993px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.277483"
@@ -1526,7 +1526,7 @@
            x="349.17029"
            y="488.00061">WaR  on B<tspan
    style="font-size:7.21455px;baseline-shift:sub;stroke-width:0.277483"
-   id="tspan379275">0,0</tspan></tspan></text>
+   id="tspan379275">0,1</tspan></tspan></text>
     </g>
   </g>
 </svg>
