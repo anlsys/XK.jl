@@ -118,6 +118,10 @@ def plot_spmv_performance(csv_file):
     ax3.set_xticklabels([f'{int(nnz):,}' for nnz in nnz_values])
     ax3.tick_params(axis='x', labelsize=14, labelrotation=15)
 
+    # Set x-axis tick labels to actual values instead of powers of 2
+    from matplotlib.ticker import FuncFormatter
+    ax1.xaxis.set_major_formatter(FuncFormatter(lambda x, p: f'{int(x):,}'))
+
     # Add legends
     lines1, labels1 = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()

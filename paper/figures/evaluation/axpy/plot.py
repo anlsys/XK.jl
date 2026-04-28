@@ -49,7 +49,7 @@ def main():
                     linestyle=linestyles[i])
 
     ax.set_xlabel('Vector Size (n)', fontsize=20)
-    ax.set_ylabel('GFLOP/s', fontsize=20)
+    ax.set_ylabel('Performance (GFLOP/s)', fontsize=20)
     ax.set_xscale('log', base=2)
     ax.set_yscale('log')
     ax.grid(True, which='both', alpha=0.3)
