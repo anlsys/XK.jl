@@ -46,8 +46,8 @@ def plot_spmv_performance(csv_file):
 
     # Define styles for different ngpus
     styles = {
-        1: {'color': 'blue', 'linestyle': '-', 'marker': 'o', 'label': 'Performance (1 H100)'},
-        4: {'color': 'red', 'linestyle': '--', 'marker': 's', 'label': 'Performance (4 H100s)'}
+        1: {'color': 'blue', 'linestyle': '-', 'marker': 'o', 'label': '1 H100'},
+        4: {'color': 'red', 'linestyle': '--', 'marker': 's', 'label': '4 H100s'}
     }
 
     # Plot performance curves with error bars

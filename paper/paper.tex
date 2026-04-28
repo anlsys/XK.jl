@@ -503,7 +503,7 @@ This also explains the lack of scalability from 1 to 2 GPUs that share the same 
 Figure~\ref{fig:eval-spmv} reports performance on an \texttt{spmv} scaling from 1 to 4 GPUs on \arch{NV-JLSE}.
 Timings only include the computation (i.e., not the preprocessing nor the initial H2D and final D2H copies).
 % Hypothesis
-The benchmark uses sparse matrices with non-zero elements generated randomly uniformly with a 10% density.
+The benchmark uses sparse matrices with non-zero elements generated randomly uniformly with a 10\% density.
 Thus, by increasing $n$, we increase the amount of work.
 % Observation
 For $n \leq 2^{13}$ (about 800 $nnz$ per line), we observe no performance improvement in increasing the number of GPUs. The reason is that \texttt{spmv} does not saturate streaming multiprocessors (SMs) units of a single GPU: there is no sufficient work for scaling.
