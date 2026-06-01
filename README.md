@@ -17,19 +17,21 @@ XK.jl must currently be installed manually, please use the following steps.
 ## Prerequisities
 - Julia >= 1.11
 - CMake >= 3.17
-- A C++20 compatible compiler (LLVM/clang >= 20.x recommended)
+- LLVM/Clang >= 20 (required — earlier versions lack the C++20 support XKRT needs)
 - hwloc library
 
 ## Steps
 
 - Edit the header of `deps/build_xkblas.jl` to your convenience
-- Be sure to be using a C++20 compatible compiler (i.e., maybe `export CC=clang CXX=clang++`)
+- Make sure CMake will use Clang >= 20, e.g. `export CC=clang-20 CXX=clang++-20`
+  (the build aborts early with a clear message if the compiler is too old)
 - Run `julia --project=./deps -e 'using Pkg; Pkg.instantiate(); include("./deps/build.jl")'`
 
 ## Testing
-If the installation succeeded, this should run:
+If the installation succeeded, this should run (the `--project=.` is required so
+Julia can find the `XK` package):
 ```bash
-julia examples/blas/gemm.jl
+julia --project=. examples/blas/gemm.jl
 ```
 
 You can run exhaustive tests with
