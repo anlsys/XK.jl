@@ -12,6 +12,7 @@ const example_files = [
     "blas/axpy_async.jl",
     "blas/axpy_sync.jl",
     "blas/axpy_dropin.jl",
+    "blas/gemm_trmm_async.jl",
 ]
 for f in example_files
     Literate.markdown(
@@ -56,9 +57,11 @@ makedocs(
                 "AXPY" => [
                     "Asynchronous flavor"   => "examples/axpy_async.md",
                     "Synchronous flavor"    => "examples/axpy_sync.md",
-                    "Dropin flavor"         => "examples/axpy_dropin.md"
+                    "Dropin flavor"         => "examples/axpy_dropin.md",
                ],
+               "GEMM + TRMM (async)"       => "examples/gemm_trmm_async.md",
             ],
+            "Krylov.jl integration"         => "krylov.md",
         ],
     ],
     warnonly = [:missing_docs, :cross_references, :example_block]
