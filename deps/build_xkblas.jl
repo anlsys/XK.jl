@@ -56,6 +56,63 @@ using Scratch, Preferences, CMake_jll, LibGit2
 
 XK_pkg = Base.UUID("8d3f9e88-0651-4e8b-8f79-7d9d5f5f9e88")
 
+##########################
+# C++ compiler pre-check #
+##########################
+#
+# XKRT and XKBlas require a C++20-capable compiler; Clang >= 20 is the tested
+# configuration. Check it early and fail with an actionable message instead of
+# deep inside the XKRT CMake build.
+# See https://github.com/anlsys/XK.jl/issues/8
+#
+function check_cxx_compiler()
+    # CMake uses $CXX when set, otherwise its own default (typically `c++`).
+    cxx = get(ENV, "CXX", "")
+    if isempty(cxx)
+        cxx = something(Sys.which("c++"), Sys.which("clang++"), Sys.which("g++"), "")
+    end
+    if isempty(cxx) || Sys.which(cxx) === nothing
+        @warn "No C++ compiler found. XKRT/XKBlas need a C++20-capable compiler " *
+              "(Clang >= 20 is tested). Set CC/CXX, e.g. `export CC=clang-20 CXX=clang++-20`."
+        return
+    end
+
+    version_str = try
+        readchomp(`$cxx --version`)
+    catch e
+        @warn "Could not check the C++ compiler version via `$cxx --version`" exception=e
+        return
+    end
+
+    clang = match(r"clang version (\d+)\."i, version_str)
+    if clang !== nothing
+        major = parse(Int, clang.captures[1])
+        major < 20 && error(
+            "C++ compiler `$cxx` is Clang $major, but XKRT/XKBlas need Clang >= 20 " *
+            "(full C++20 support). Install clang >= 20 and point CC/CXX at it:\n" *
+            "    export CC=clang-20 CXX=clang++-20\n" *
+            "then re-run the build.")
+        @info "C++ compiler: $cxx (Clang $major)"
+        return
+    end
+
+    gcc = match(r"(?:g\+\+|gcc|GCC|Free Software Foundation).*?(\d+)\.\d+"s, version_str)
+    if gcc !== nothing
+        major = parse(Int, gcc.captures[1])
+        major < 10 && error(
+            "C++ compiler `$cxx` is GCC $major, which lacks C++20 support. " *
+            "Use Clang >= 20 (tested): `export CC=clang-20 CXX=clang++-20`.")
+        @warn "C++ compiler `$cxx` is GCC $major (untested). XKRT/XKBlas are tested with " *
+              "Clang >= 20; if the build fails, try `export CC=clang-20 CXX=clang++-20`."
+        return
+    end
+
+    @warn "Could not determine the version of C++ compiler `$cxx`. " *
+          "XKRT/XKBlas are tested with Clang >= 20."
+end
+
+check_cxx_compiler()
+
 # Configuration from install.sh
 const XKRT_URL = "https://gitlab.inria.fr/xkaapi/dev-v2.git"
 const XKBLAS_URL = "https://gitlab.inria.fr/xkblas/dev.git"
