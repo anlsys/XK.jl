@@ -1,8 +1,6 @@
 # Kernels (see `xkblas/xkblas.hpp` and convert C++ prototypes)
 
 """
-    XK.BLAS
-
 Multi-GPU BLAS module for XK.jl.
 
 Provides BLAS Level 1, 2, and 3 routines that are automatically tiled and

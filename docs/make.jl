@@ -28,6 +28,10 @@ for mod in MODULES
     for sym in names(mod; all = true, imported = false)
         isdefined(mod, sym)           || continue
         startswith(string(sym), '#')  && continue
+        # Skip the module's self-reference and sub-modules whose
+        # docstrings are attached in the parent module's metadata.
+        obj = getfield(mod, sym)
+        obj isa Module                && continue
         b = Base.Docs.Binding(mod, sym)
         if !haskey(Base.Docs.meta(mod), b)
             Base.eval(mod, :(@doc "No documentation provided." $sym))
