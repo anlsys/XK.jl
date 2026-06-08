@@ -68,6 +68,7 @@ makedocs(
 )
 
 deploydocs(
-    repo      = "github.com/anlsys/XK.jl.git",
-    devbranch = "paper",
+    repo         = "github.com/anlsys/XK.jl.git",
+    devbranch    = "paper",
+    push_preview = true,
 )
