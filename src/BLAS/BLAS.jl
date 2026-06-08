@@ -1,12 +1,11 @@
 # Kernels (see `xkblas/xkblas.hpp` and convert C++ prototypes)
 
 """
-Multi-GPU BLAS module for XK.jl.
+Multi-devices BLAS module for XK.jl: an Overview.
 
-Provides BLAS Level 1, 2, and 3 routines that are automatically tiled and
-distributed across all available GPUs by the XKRT runtime. Matrices and
-vectors are stored in host memory; the runtime replicates and manages device
-copies transparently.
+XK.BLAS provides BLAS Level 1, 2, and 3 routines that are automatically tiled and
+distributed across all available devices.  Matrices and vectors are stored in
+host memory; the runtime replicates and manages device copies transparently.
 
 ## Execution flavors
 
@@ -14,26 +13,23 @@ Every routine is available in three flavors:
 
 | Suffix     | Behavior |
 |:-----------|:---------|
-| `_async`   | Submits the operation as an asynchronous task and returns immediately. A subsequent [`XK.sync()`](@ref) (or a data-dependent task) is required to guarantee completion. |
-| `_sync`    | Submits the operation and blocks until it completes. |
-| *(none)*   | Default flavor: submits the operation, makes the **output** memory coherent between host and devices, and blocks until completion. This is the simplest ("drop-in") usage. |
+| `_async`   | Spawns the routine's tasks and the executing thread returns immediately. A subsequent [`XK.sync()`](@ref) (or a data-dependent task) is required to guarantee completion. |
+| `_sync`    | Spawns the routine's tasks and the executing thread returned once they completed. |
+| *(none)*   | Spawns the routine's tasks, [`XK.memory_coherent_async`](@ref) tasks on any written memory, and the executing thread returned once they completed. The computation performed by the routine is therefore written-back from devices to the host. This is the simplest ("drop-in") usage. |
 
 ## Supported element types
 
-`Float32`, `Float64`, `ComplexF32`, `ComplexF64` — dispatched automatically
-from the type of the scalar arguments (`alpha`, `beta`, etc.).
+`Float32`, `Float64`, `ComplexF32`, `ComplexF64` — dispatched automatically from the type of the scalar arguments (`alpha`, `beta`, etc.).
+Support for Complex is still experimental.
 
 ## Memory coherence
 
-After asynchronous operations, device results are **not** automatically
-written back to host memory.  Use [`XK.memory_coherent_async`](@ref) /
-[`XK.memory_coherent_sync`](@ref) (or the `BLAS.memory_coherent_*` helpers)
-to request a write-back, then [`XK.sync()`](@ref) to wait.
+After asynchronous routine, the memory written on devices are **not** automatically written back to host memory.
+Use [`XK.memory_coherent_async`](@ref) / [`XK.memory_coherent_sync`](@ref) (or the `BLAS.memory_coherent_*` helpers) to request a write-back, then [`XK.sync()`](@ref) to wait.
 
 ## Extended routines
 
-Additional BLAS-like routines (`axpby`, `copy`, `fill`, `scal`, `gemmt`) are
-available under the [`XK.BLAS.ext`](@ref) sub-module.
+Additional BLAS-like routines (`axpby`, `copy`, `fill`, `scal`, `gemmt`) are available under the [`XK.BLAS.ext`](@ref) sub-module.
 
 See also: [Examples](@ref)
 """
