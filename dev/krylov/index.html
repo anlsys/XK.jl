@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Krylov.jl integration · XK.jl</title><meta name="title" content="Krylov.jl integration · XK.jl"/><meta property="og:title" content="Krylov.jl integration · XK.jl"/><meta property="twitter:title" content="Krylov.jl integration · XK.jl"/><meta name="description" content="Documentation for XK.jl."/><meta property="og:description" content="Documentation for XK.jl."/><meta property="twitter:description" content="Documentation for XK.jl."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">XK.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><span class="tocitem">API</span><ul><li><a class="tocitem" href="../api/xk/">XK</a></li><li><a class="tocitem" href="../api/blas/">XK.BLAS</a></li><li><a class="tocitem" href="../api/ka/">XK.KA</a></li><li><a class="tocitem" href="../api/logger/">XK.Logger</a></li><li><a class="tocitem" href="../api/threading/">XK.Threading</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><input class="collapse-toggle" id="menuitem-3-1" type="checkbox"/><label class="tocitem" for="menuitem-3-1"><span class="docs-label">BLAS</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-1-1" type="checkbox"/><label class="tocitem" for="menuitem-3-1-1"><span class="docs-label">AXPY</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../examples/axpy_async/">Asynchronous flavor</a></li><li><a class="tocitem" href="../examples/axpy_sync/">Synchronous flavor</a></li><li><a class="tocitem" href="../examples/axpy_dropin/">Dropin flavor</a></li></ul></li><li><a class="tocitem" href="../examples/gemm_trmm_async/">GEMM + TRMM (async)</a></li></ul></li><li class="is-active"><a class="tocitem" href>Krylov.jl integration</a><ul class="internal"><li><a class="tocitem" href="#Overview"><span>Overview</span></a></li><li><a class="tocitem" href="#Usage"><span>Usage</span></a></li><li><a class="tocitem" href="#Source-files"><span>Source files</span></a></li></ul></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Krylov.jl integration</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Krylov.jl integration</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/anlsys/XK.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/anlsys/XK.jl/blob/main/docs/src/krylov.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Krylov.jl-Integration"><a class="docs-heading-anchor" href="#Krylov.jl-Integration">Krylov.jl Integration</a><a id="Krylov.jl-Integration-1"></a><a class="docs-heading-anchor-permalink" href="#Krylov.jl-Integration" title="Permalink"></a></h1><p>This example shows how to use <a href="https://github.com/JuliaSmoothOptimizers/Krylov.jl">Krylov.jl</a> with <code>XK.BLAS</code> as the computational backend, so that iterative solvers run transparently on multiple GPUs.</p><h2 id="Overview"><a class="docs-heading-anchor" href="#Overview">Overview</a><a id="Overview-1"></a><a class="docs-heading-anchor-permalink" href="#Overview" title="Permalink"></a></h2><p>Krylov.jl defines a set of internal kernel functions (<code>kdot</code>, <code>kaxpy!</code>, <code>kaxpby!</code>, <code>kmul!</code>, <code>kscal!</code>, etc.) that it calls during every solver iteration. By overriding these functions to call <code>XK.BLAS</code> routines, Krylov solvers automatically offload all vector and matrix operations to multi-GPU execution.</p><p>Two integration strategies are provided:</p><table><tr><th style="text-align: left">Strategy</th><th style="text-align: left">File</th><th style="text-align: left">Description</th></tr><tr><td style="text-align: left"><strong>XK-types</strong></td><td style="text-align: left"><code>krylov-utils-xk.jl</code></td><td style="text-align: left">Defines dispatch rules on <code>XKVector</code> / <code>XKSparseMatrixCSR</code> wrapper types. The original CPU code-paths are untouched; you opt-in by wrapping your data.</td></tr><tr><td style="text-align: left"><strong>Drop-in overrides</strong></td><td style="text-align: left"><code>krylov-utils-overrides.jl</code></td><td style="text-align: left">Overrides Krylov&#39;s dispatch directly on plain <code>Vector</code> / <code>SparseMatrixCSR</code>. Every Krylov solve on CPU arrays is silently redirected to XKBlas.</td></tr></table><h2 id="Usage"><a class="docs-heading-anchor" href="#Usage">Usage</a><a id="Usage-1"></a><a class="docs-heading-anchor-permalink" href="#Usage" title="Permalink"></a></h2><pre><code class="language-bash hljs">julia examples/Krylov/krylov.jl [solver] [n] [tile_size] [use_xkblas]</code></pre><table><tr><th style="text-align: left">Argument</th><th style="text-align: left">Default</th><th style="text-align: left">Description</th></tr><tr><td style="text-align: left"><code>solver</code></td><td style="text-align: left"><code>cg</code></td><td style="text-align: left">Name of the Krylov solver (e.g. <code>cg</code>, <code>minres</code>, <code>gmres</code>)</td></tr><tr><td style="text-align: left"><code>n</code></td><td style="text-align: left"><code>4</code></td><td style="text-align: left">Problem size</td></tr><tr><td style="text-align: left"><code>tile_size</code></td><td style="text-align: left"><code>2</code></td><td style="text-align: left">XKBlas tile parameter</td></tr><tr><td style="text-align: left"><code>use_xkblas</code></td><td style="text-align: left"><code>false</code></td><td style="text-align: left">Set to <code>true</code> to use the XK.BLAS backend</td></tr></table><p>For example, running a Conjugate-Gradient solve of size 1024 on GPUs with a tile size of 256:</p><pre><code class="language-bash hljs">julia examples/Krylov/krylov.jl cg 1024 256 true</code></pre><h2 id="Source-files"><a class="docs-heading-anchor" href="#Source-files">Source files</a><a id="Source-files-1"></a><a class="docs-heading-anchor-permalink" href="#Source-files" title="Permalink"></a></h2><h3 id="Main-script-—-krylov.jl"><a class="docs-heading-anchor" href="#Main-script-—-krylov.jl">Main script — <code>krylov.jl</code></a><a id="Main-script-—-krylov.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Main-script-—-krylov.jl" title="Permalink"></a></h3><p>Sets up a symmetric positive-definite tridiagonal system, selects the solver, and optionally wraps the data in XK types when <code>use_xkblas</code> is <code>true</code>.  After the solve, it writes results back to the host with <code>XK.memory_coherent_sync</code> and checks the residual.</p><pre><code class="language-julia hljs"># ----------------------------
+# Command-line arguments
+# ----------------------------
+# Usage:
+#   julia script.jl [fname] [n] [ts] [use_xkblas]
+#
+# Defaults:
+#   fname      = cg
+#   n          = 4
+#   ts         = 2
+#   use_xkblas = false
+
+fname      = length(ARGS) &gt;= 1 ?               ARGS[1]  : &quot;cg&quot;
+n          = length(ARGS) &gt;= 2 ? parse(Int,    ARGS[2]) : 4
+ts         = length(ARGS) &gt;= 3 ? parse(Int,    ARGS[3]) : 2
+use_xkblas = length(ARGS) &gt;= 4 ? parse(Bool,   ARGS[4]) : false
+
+using LinearAlgebra # norm
+using SparseArrays  # spdiagm
+using SparseMatricesCSR
+using Krylov
+using XK
+
+const T = Float64 # (Float64, ComplexF64)
+
+# Symmetric and positive definite systems.
+function symmetric_definite(n::Int, T)
+    α = T &lt;: Complex ? T(im) : one(T)
+    A_csc = spdiagm(
+        -1 =&gt; α * ones(T, n-1),
+         0 =&gt; 4 * ones(T, n),
+         1 =&gt; conj(α) * ones(T, n-1)
+    )
+    y = A_csc * T[1:n;]
+    return A_csc, y
+end
+
+tolerance = 1.0e-6
+A_csc, y_cpu = symmetric_definite(n, T)
+A_csr = SparseMatrixCSR(A_csc)
+f = getproperty(Krylov, Symbol(fname))
+
+# If using XKBlas
+if use_xkblas
+
+    using XK
+
+    # set tile parameter
+    XK.set_tile_parameter(ts)
+
+    # Use drop-in replacement of CPU types
+    # This overrides Krylov.jl original CPU routines dispatcher.
+    # include(&quot;./krylov-utils-overrides.jl&quot;)
+
+    # Use XK-types replacement.
+    # This define krylov_utils.jl API for XKVector/XKMatrix
+    include(&quot;./krylov-utils-xk.jl&quot;)
+    A = XKSparseMatrixCSR(A_csr)
+    y = XKVector(y_cpu)
+else
+    A = A_csr
+    y = y_cpu
+end
+
+println(&quot;Running fname=$(fname), with n=$(n) of tile size ts=$(ts) $(use_xkblas ? &quot;&quot; : &quot;not&quot;) using XKBLAS&quot;)
+
+println(&quot;A=&quot;)
+print(A)
+println(&quot;y=&quot;)
+print(y)
+
+# Run
+@time begin
+    (x, stats) = f(A, y, itmax = 5*n)
+end
+
+# Write back
+if use_xkblas
+    XK.memory_coherent_sync(x)
+end
+
+print(stats)
+println(typeof(x))
+println(typeof(y))
+println(typeof(A))
+
+# Checking result
+r = y - A * x
+println(&quot;       x is $(x)&quot;)
+println(&quot;       y is $(y)&quot;)
+println(&quot;residual is $(r)&quot;)
+
+resid = norm(r)
+@assert resid ≤ tolerance &quot;Failure&quot;
+println(&quot;Success&quot;)
+</code></pre><h3 id="XK-types-dispatch-—-krylov-utils-xk.jl"><a class="docs-heading-anchor" href="#XK-types-dispatch-—-krylov-utils-xk.jl">XK-types dispatch — <code>krylov-utils-xk.jl</code></a><a id="XK-types-dispatch-—-krylov-utils-xk.jl-1"></a><a class="docs-heading-anchor-permalink" href="#XK-types-dispatch-—-krylov-utils-xk.jl" title="Permalink"></a></h3><p>Implements Krylov&#39;s kernel API for <code>XKVector</code> and <code>XKSparseMatrixCSR</code>. Each override delegates to the corresponding <code>XK.BLAS</code> synchronous routine (e.g. <code>kaxpy!</code> calls <code>XK.BLAS.axpy_sync</code>, <code>kmul!</code> calls <code>XK.BLAS.spmv_sync</code>).</p><pre><code class="language-julia hljs">using Krylov, SparseMatricesCSR, XK
+import Krylov: FloatOrComplex
+
+#############################################################################
+# Wrap XK.BLAS routines to return the scalar result from write-back address #
+#############################################################################
+
+function xkdot(n::Integer, x::Vector{T}, y::Vector{T}) where T &lt;: FloatOrComplex
+    r = Ref{T}(0)
+    XK.BLAS.dot_sync(n, x, 1, y, 1, r)
+    return r[]
+end
+
+function xknrm2(n::Integer, x::Vector{T}) where T &lt;: AbstractFloat
+    return sqrt(real(xkdot(n, x, x)))
+end
+
+#######################################################
+# Dispatch routines over XKVector/XKMatrix to XK.BLAS #
+#######################################################
+
+Krylov.kaxpy!(n::Integer, a::T, x::XKVector{T},          y::XKVector{T})          where T &lt;: FloatOrComplex = XK.BLAS.axpy_sync(n, a, x.data, 1, y.data, 1)
+Krylov.kaxpy!(n::Integer, a::T, x::XKVector{Complex{T}}, y::XKVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.axpy_sync(n, a, x.data, 1, y.data, 1)
+
+Krylov.kaxpby!(n::Integer, a::T,          x::XKVector{T},          b::T,          y::XKVector{T})          where T &lt;: FloatOrComplex = XK.BLAS.ext.axpby_sync(n, a, x.data, 1, b, y.data, 1)
+Krylov.kaxpby!(n::Integer, a::T,          x::XKVector{Complex{T}}, t::Complex{T}, y::XKVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.ext.axpby_sync(n, a, x.data, 1, b, y.data, 1)
+Krylov.kaxpby!(n::Integer, a::Complex{T}, x::XKVector{Complex{T}}, b::T,          y::XKVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.ext.axpby_sync(n, a, x.data, 1, b, y.data, 1)
+Krylov.kaxpby!(n::Integer, a::T,          x::XKVector{Complex{T}}, b::T,          y::XKVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.ext.axpby_sync(n, a, x.data, 1, b, y.data, 1)
+
+Krylov.kdot( n::Integer, x::XKVector{T}, y::XKVector{T}) where T &lt;: FloatOrComplex = xkdot( n, x.data, y.data)
+
+# no need to implement this, Krylov.jl already fallbacks to real(dot())
+# Krylov.kdotr(n::Integer, x::XKVector{T}, y::XKVector{T}) where T &lt;: FloatOrComplex = xkdotr(n, x.data, y.data)
+
+Krylov.kfill!(x::XKVector{T}, val::T) where T &lt;: FloatOrComplex = XK.BLAS.ext.fill_sync(length(x.data), x.data, val)
+
+# TODO: dupplicate for complex
+Krylov.kscal!(n::Integer, s::T, x::XKVector{T}) where T &lt;: FloatOrComplex = XK.BLAS.ext.scal_sync(n, s, x.data, 1)
+
+Krylov.kmul!(y::XKVector{T}, P::XKSparseMatrixCSR, x::XKVector{T}) where T &lt;: FloatOrComplex =
+    XK.BLAS.spmv_sync(T(1.0), XK.BLAS.NO_TRANS, size(P.data, 1), size(P.data, 2), length(P.data.nzval), XK.BLAS.SPARSE_CSR, P.data.rowptr, P.data.colval, P.data.nzval, x.data, T(0.0), y.data)
+
+Krylov.kmul!(y::XKVector{T}, P::Adjoint{T,&lt;:XKSparseMatrixCSR}, x::XKVector{T}) where T &lt;: FloatOrComplex =
+    XK.BLAS.spmv_sync(T(1.0), XK.BLAS.TRANS, size(P.data, 1), size(P.data, 2), length(P.data.nzval), XK.BLAS.SPARSE_CSR, P.data.rowptr, P.data.colval, P.data.nzval, x.data, T(0.0), y.data)
+
+Krylov.kmul!(y::XKVector{T}, P::XKMatrix{T}, x::XKVector{T}) where T &lt;: FloatOrComplex =
+    XK.BLAS.gemv_sync(XK.BLAS.NO_TRANS, size(P.data, 1), size(P.data, 2), T(1.0), p.data, stride(p.data, 2), x.data, 1, T(0.0), y.data, 1)
+
+Krylov.kcopy!(n::Integer, y::XKVector{T}, x::XKVector{T}) where {T&lt;:AbstractFloat} = XK.BLAS.ext.copy_sync(n, x.data, 1, y.data, 1)
+
+Krylov.knorm(n::Integer, x::XKVector{T}) where T &lt;: AbstractFloat = xknrm2(n, x.data)
+
+#################################################
+# The following APIs fallback to other routines #
+#################################################
+
+Krylov.kscalcopy!(n::Integer, y::XKVector{T}, s::T, x::XKVector{T}) where T &lt;: FloatOrComplex = Krylov.kaxpby!(n, s, x, T(0), y)
+Krylov.kdivcopy!( n::Integer, y::XKVector{T}, x::XKVector{T}, s::T) where T &lt;: FloatOrComplex = Krylov.kscalcopy!(n, y, one(T)/s, x)
+
+Krylov.kdiv!(n::Integer, x::XKVector{Complex{T}}, s::T) where T &lt;: AbstractFloat  = Krylov.kscal!(n, one(T) / s, x)
+Krylov.kdiv!(n::Integer, x::XKVector{T}, s::T)          where T &lt;: FloatOrComplex = Krylov.kscal!(n, one(T) / s, x)
+
+# TODO
+# kldiv and kref!
+</code></pre><h3 id="Drop-in-overrides-—-krylov-utils-overrides.jl"><a class="docs-heading-anchor" href="#Drop-in-overrides-—-krylov-utils-overrides.jl">Drop-in overrides — <code>krylov-utils-overrides.jl</code></a><a id="Drop-in-overrides-—-krylov-utils-overrides.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Drop-in-overrides-—-krylov-utils-overrides.jl" title="Permalink"></a></h3><p>Overrides Krylov&#39;s kernel API directly for standard Julia <code>Vector</code> and <code>SparseMatrixCSR</code> types so that XKBlas is used without wrapping data.</p><pre><code class="language-julia hljs">using Krylov, SparseMatricesCSR, XK
+import Krylov: FloatOrComplex
+
+function xkdot(n::Integer, x::Vector{T}, y::Vector{T}) where T &lt;: FloatOrComplex
+    r = Ref{T}(0)
+    XK.BLAS.dot_sync(n, x, 1, y, 1, r)
+    return r[]
+end
+
+function xknrm2(n::Integer, x::Vector{T}) where T &lt;: AbstractFloat
+    return sqrt(real(xkdotr(n, x, x)))
+end
+
+# not needed, Krylov.jl will dispatch to kdot
+# Krylov.kdotr(n::Integer, x::AbstractVector{Complex{T}}, y::AbstractVector{Complex{T}}) where T &lt;: AbstractFloat = xkdotr(n, x, y)
+# Krylov.kdotr(n::Integer, x::AbstractVector{T},          y::AbstractVector{T})          where T &lt;: AbstractFloat = xkdotr(n, x, y)
+
+Krylov.kdot(n::Integer, x::AbstractVector{T}, y::AbstractVector{T}) where T &lt;: FloatOrComplex   = xkdot(n, x, y)
+Krylov.kdot(n::Integer, x::Vector{T},         y::Vector{T})         where T &lt;: BLAS.BlasComplex = xkdot(n, x, y)
+Krylov.kdot(n::Integer, x::Vector{T},         y::Vector{T})         where T &lt;: BLAS.BlasReal    = xkdot(n, x, y)
+
+Krylov.kaxpy!(n::Integer, a::T, x::Vector{T},                  y::Vector{T})                  where T &lt;: BLAS.BlasFloat = XK.BLAS.axpy_sync(n, a, x, 1, y, 1)
+Krylov.kaxpy!(n::Integer, a::T, x::AbstractVector{T},          y::AbstractVector{T})          where T &lt;: FloatOrComplex = XK.BLAS.axpy_sync(n, a, x, 1, y, 1)
+Krylov.kaxpy!(n::Integer, a::T, x::AbstractVector{Complex{T}}, y::AbstractVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.axpy_sync(n, a, x, 1, y, 1)
+
+Krylov.kaxpby!(n::Integer, a::T,          x::Vector{T},                  b::T,          y::Vector{T})                  where T &lt;: BLAS.BlasFloat = XK.BLAS.ext.axpby_sync(n, a, x, 1, b, y, 1)
+Krylov.kaxpby!(n::Integer, a::T,          x::AbstractVector{T},          b::T,          y::AbstractVector{T})          where T &lt;: FloatOrComplex = XK.BLAS.ext.axpby_sync(n, a, x, 1, b, y, 1)
+Krylov.kaxpby!(n::Integer, a::T,          x::AbstractVector{Complex{T}}, t::Complex{T}, y::AbstractVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.ext.axpby_sync(n, a, x, 1, b, y, 1)
+Krylov.kaxpby!(n::Integer, s::Complex{T}, x::AbstractVector{Complex{T}}, b::T,          y::AbstractVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.ext.axpby_sync(n, a, x, 1, b, y, 1)
+Krylov.kaxpby!(n::Integer, a::T,          x::AbstractVector{Complex{T}}, b::T,          y::AbstractVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.ext.axpby_sync(n, a, x, 1, b, y, 1)
+
+Krylov.kcopy!(n::Integer, y::Vector{T},      x::Vector{T})      where {T&lt;:BLAS.BlasFloat} = XK.BLAS.ext.copy_sync(n, x, 1, y, 1)
+Krylov.kcopy!(n::Integer, y::AbstractVector, x::AbstractVector)                           = XK.BLAS.ext.copy_sync(n, x, 1, y, 1)
+
+# no need to impl
+Krylov.kdiv!(n::Integer, x::AbstractVector{Complex{T}}, s::T) where T &lt;: AbstractFloat  = Krylov.kscal!(n, one(T) / s, x)
+Krylov.kdiv!(n::Integer, x::AbstractVector{T},          s::T) where T &lt;: FloatOrComplex = Krylov.kscal!(n, one(T) / s, x)
+
+Krylov.kdivcopy!(n::Integer, y::AbstractVector{Complex{T}}, x::AbstractVector{Complex{T}}, s::T) where T &lt;: AbstractFloat  = Krylov.kscalcopy!(n, y, one(T)/s, x)
+Krylov.kdivcopy!(n::Integer, y::AbstractVector{T},          x::AbstractVector{T},          s::T) where T &lt;: FloatOrComplex = Krylov.kscalcopy!(n, y, one(T)/s, x)
+
+Krylov.kfill!(x::AbstractArray{T}, val::T) where T &lt;: FloatOrComplex = XK.BLAS.ext.fill_sync(length(x), x, val)
+
+Krylov.knorm(n::Integer, x::AbstractVector{T}) where T &lt;: FloatOrComplex = xknrm2(n, x)
+Krylov.knorm(n::Integer, x::Vector{T})         where T &lt;: BLAS.BlasFloat = xknrm2(n, x)
+
+# TODO
+# knorm_elliptic(n::Integer, x::AbstractVector{T}, y::AbstractVector{T}) where T &lt;: FloatOrComplex = (x === y) ? knorm(n, x) : kdotr(n, x, y) |&gt; sqrt
+
+# TODO
+# kmul and ldiv
+
+Krylov.kscal!(n::Integer, s::T, x::AbstractVector{Complex{T}}) where T &lt;: AbstractFloat  = XK.BLAS.ext.scal_sync(n, s, x, 1)
+Krylov.kscal!(n::Integer, s::T, x::AbstractVector{T})          where T &lt;: FloatOrComplex = XK.BLAS.ext.scal_sync(n, s, x, 1)
+Krylov.kscal!(n::Integer, s::T, x::Vector{T})                  where T &lt;: BLAS.BlasFloat = XK.BLAS.ext.scal_sync(n, s, x, 1)
+
+Krylov.kscalcopy!(n::Integer, y::AbstractVector{Complex{T}}, s::T, x::AbstractVector{Complex{T}}) where T &lt;: AbstractFloat  = Krylov.kaxpby!(n, s, x, T(0), y)
+Krylov.kscalcopy!(n::Integer, y::AbstractVector{T},          s::T, x::AbstractVector{T})          where T &lt;: FloatOrComplex = Krylov.kaxpby!(n, s, x, T(0), y)
+
+Krylov.kmul!(y::AbstractVector{T}, P::SparseMatrixCSR, x::AbstractVector{T}) where T &lt;: FloatOrComplex = XK.BLAS.spmv_sync(T(1.0), XK.BLAS.NO_TRANS, size(P, 1), size(P, 2), length(P.nzval), XK.BLAS.SPARSE_CSR, P.rowptr, P.colval, P.nzval, x, T(0.0), y)
+</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../examples/gemm_trmm_async/">« GEMM + TRMM (async)</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Tuesday 9 June 2026 11:59">Tuesday 9 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
