@@ -12,6 +12,7 @@ const example_files = [
     "blas/axpy_async.jl",
     "blas/axpy_sync.jl",
     "blas/axpy_dropin.jl",
+    "blas/gemm_trmm_async.jl",
 ]
 for f in example_files
     Literate.markdown(
@@ -27,6 +28,10 @@ for mod in MODULES
     for sym in names(mod; all = true, imported = false)
         isdefined(mod, sym)           || continue
         startswith(string(sym), '#')  && continue
+        # Skip the module's self-reference and sub-modules whose
+        # docstrings are attached in the parent module's metadata.
+        obj = getfield(mod, sym)
+        obj isa Module                && continue
         b = Base.Docs.Binding(mod, sym)
         if !haskey(Base.Docs.meta(mod), b)
             Base.eval(mod, :(@doc "No documentation provided." $sym))
@@ -56,15 +61,18 @@ makedocs(
                 "AXPY" => [
                     "Asynchronous flavor"   => "examples/axpy_async.md",
                     "Synchronous flavor"    => "examples/axpy_sync.md",
-                    "Dropin flavor"         => "examples/axpy_dropin.md"
+                    "Dropin flavor"         => "examples/axpy_dropin.md",
                ],
+               "GEMM + TRMM (async)"       => "examples/gemm_trmm_async.md",
             ],
+            "Krylov.jl integration"         => "krylov.md",
         ],
     ],
     warnonly = [:missing_docs, :cross_references, :example_block]
 )
 
 deploydocs(
-    repo      = "github.com/anlsys/XK.jl.git",
-    devbranch = "paper",
+    repo         = "github.com/anlsys/XK.jl.git",
+    devbranch    = "paper",
+    push_preview = true,
 )
