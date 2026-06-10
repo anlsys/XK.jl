@@ -352,7 +352,7 @@ Originally, XKBlas only supported flavor (F3). We extended it with (F1) and (F2)
 
 \begin{figure*}[]
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/xkblas/spmv.pdf}
+    \includegraphics[width=0.90\linewidth]{figures/xkblas/spmv.pdf}
     \caption{\texttt{spmv} for CSR matrices distributed from the host to two devices with one tile per device.}
     \label{fig:xkblas-spmv}
 \end{figure*}
@@ -573,17 +573,23 @@ They also illustrates its portability by running on all three major GPU vendors.
 \subsection{XK.BLAS as a Krylov.jl backend}
 %----------------------------%
 
-Following our initial motivation, we now evaluate XK.BLAS as a backend for Krylov.jl.
+Following our initial motivation, we evaluate XK.BLAS as a backend for Krylov.jl.
 We report results on the \arch{NV-JLSE} system of the conjugate gradient solver.
 Other solvers exhibited similar performance trends.
-Table~\ref{tab:complexities} reports the computational and memory complexity of the solver.
-%
-For sufficiently many iterations ($I \gg 1$), the cost of the initial host-to-device (H2D) and final device-to-host (D2H) transfers is amortized, and the execution time is bounded either by the number of floating-point operations (FLOPs) or by peer-to-peer (P2P) memory transfers.
-The resulting arithmetic intensity is $O(\frac{nnz}{n})$, where $nnz/n$ is the average number of non-zero elements per row.
-Additionally, the aggregated system peak performance ($120$~TFLOP64/s)~\cite{h100} greatly exceeds its memory bandwidth ($1.0$~TB/s).
-Consequently, performance should scale with the number of GPUs ($G$) only if $nnz \gg n$; otherwise, the execution is limited by P2P memory copies.
 %
 In the following, we first evaluate single-GPU performance and multi-GPU performance of Krylov.jl using XK.BLAS as a backend.
+We use two datasets:
+\begin{itemize}
+    \item   Three matrices (\texttt{nasarb}, \texttt{pwtk}, \texttt{Queen\_4147}) from the Suite Sparse Matrix Collection (SSMC)~\cite{ssmc}---for realistic test cases. These matrices are all symmetric positive definite, and cover different size ranges (see Table~\ref{tbl:ssmc}). The largest matrix (\texttt{Queen\_4147}) still fits in the memory of a single H100 GPU.
+        %
+    \item   Three pseudo-random sparse matrix generators ($M_1$, $M_2$, $M_3$) representative of different scientific problems\footnote{Claude Sonnet 4.5~\cite{anthropic-claude-sonnet-45} was used to create the matrix generators.}.
+            These matrices allow the exploration of large symmetric positive definite matrix sizes that would not fit on a single GPU.
+            They also allow the exploration of different sparsity patterns---that we illustrate on visualizations in Appendix~\ref{sec:appendix-matrices}.
+\end{itemize}
+
+% julia> tiny = ssmc[(ssmc.numerical_symmetry .== 1.0) .& (ssmc.positive_definite.== true) .& (ssmc.nnz .>= 100000000), :]
+%    3 │ Janna   Queen_4147  4147110  4147110  316548962          4147110                 1.0               true               1.0   false  true  4147110  -2.04835e16+0.0im  4.07611e16+0.0im            47084            47084                47075                47075  70146293583  64402387996  123868718534        12950322        329499284                true                149447   149447  4.87278e15  rsa         false   true
+
 
 % Please add the following required packages to your document preamble:
 % \usepackage[normalem]{ulem}
@@ -602,6 +608,17 @@ In the following, we first evaluate single-GPU performance and multi-GPU perform
 \end{tabular}
 }%
 \end{table}
+
+%----------------------------%
+\subsubsection{Theoretical Complexities} \label{sec:complexities}
+%----------------------------%
+Table~\ref{tab:complexities} reports the computational and memory complexity of the conjugate gradient solver used throughout this section.
+%
+For sufficiently many iterations ($I \gg 1$), the cost of the initial host-to-device (H2D) and final device-to-host (D2H) transfers is amortized, and the execution time is bounded either by the number of floating-point operations (FLOPs) or by peer-to-peer (P2P) memory transfers.
+The resulting arithmetic intensity is $O(\frac{nnz}{n})$, where $nnz/n$ is the average number of non-zero elements per row.
+Additionally, the aggregated system peak performance ($120$~TFLOP64/s)~\cite{h100} greatly exceeds its memory bandwidth ($1.0$~TB/s).
+Consequently, performance should scale with the number of GPUs ($G$) only if $nnz \gg n$; otherwise, the execution is limited by P2P memory copies.
+
 
 %----------------------------%
 \subsubsection{Single-GPU Performance} \label{sec:eval-1-gpu}
@@ -624,8 +641,8 @@ Queen\_4147 & 4,147,110 & 316,548,962 & 76 & $1.8 \pm 0 ms$ & $1.9 \pm 0.1 ms$ \
 \end{table}
 
 % Presentation
-We evaluate Krylov.jl performance on a single-GPU using three matrices from the Suite Sparse Matrix Collection (SSMC)~\cite{ssmc} and compare performance with the existing \texttt{cuBLAS} backend.
-Table~\ref{tbl:ssmc} reports matrices used and performance obtained.
+We evaluate Krylov.jl performance on a single GPU using SSMC matrices.
+Table~\ref{tbl:ssmc} compares the performance of XK.BLAS with the default \texttt{cuBLAS} native backend.
 
 % Observation
 On the \texttt{nasarb} and \texttt{pwtk} matrices, we observe performance degradation using XK.BLAS against the original backend.
@@ -642,11 +659,9 @@ For the \texttt{Queen\_4147} matrix, the workload is higher, and these overheads
 \subsubsection{Multi-GPU Performance}
 %----------------------------%
 
-This section evaluates the scaling of the Krylov.jl solver on multiple GPUs using the XK.BLAS backend.
+We evaluate the scaling of the Krylov.jl solver on multiple GPUs using the XK.BLAS backend.
 % \paragraph{Protocol}
-For that purpose, we used Claude Sonnet 4.5~\cite{anthropic-claude-sonnet-45} to create a sparse matrix generator representative of different scientific problems, so that we can explore a range of matrix sparsity and sizes.
-Section~\ref{sec:appendix-matrices} has a visualization of each matrix.
-Table~\ref{tab:multi-gpu} reports matrix sizes we used to saturate a single H100 memory.
+Table~\ref{tab:multi-gpu} reports the pseudo-random sparse matrices we used to saturate the memory of a single H100 GPU.
 The table reports average times to execute a single iteration on a single GPU and multiple GPUs, using the original native \texttt{cuBLAS} backend and XK.BLAS.
 When using XK.BLAS on multiple GPUs, it reports times with and without the optimization step $\mathcal{S}_3$ introduced in section~\ref{sec:blas1-2}.
 
@@ -693,9 +708,12 @@ It is built on top of the XKRT tasking runtime system and the XKBlas multi-GPU B
 Unlike existing linear algebra packages, XK.BLAS automates the parallelization of CPU-based linear algebra programs to the scale of a compute node equipped with multiple GPUs, while managing memory and task scheduling transparently.
 
 The primary motivation for XK.BLAS was to provide a multi-GPU backend for Krylov.jl, a collection of (block) Krylov solvers.  
-XK.BLAS not only enables multi-GPU execution of solvers in Krylov.jl but also improves portability: it abstracts available devices by manipulating host-memory objects (\texttt{Vector}, \texttt{Matrix}, \texttt{SparseMatrixCSR}) and automatically moving memory to places of execution.
+XK.BLAS not only enables multi-GPU execution of solvers in Krylov.jl but also improves portability: it abstracts available devices by manipulating host-memory objects (\texttt{Vector}, \texttt{Matrix}, \texttt{SparseMatrixCSR}) and automatically moving memory to executing devices.
 % AM: Check with Romain if he is using SparseMatrixCSR.jl. Romain: Yes
-To implement this backend, we extended XKBlas with support for selected BLAS 1 and 2 routines (\texttt{axpy}, \texttt{dot}, \texttt{scal}, \texttt{gemv}, \texttt{spmv}, etc.) and evaluated their performance on three multi-GPU architectures (MI250X, PVC, H100), demonstrating scalable execution across multiple devices.
+To implement this backend, we extended XKBlas with support for selected BLAS 1 and 2 routines (\texttt{axpy}, \texttt{dot}, \texttt{scal}, \texttt{gemv}, \texttt{spmv}, etc.).
+Evaluations show $2.5\times$ slowdown on the smallest evaluated matrix (\texttt{nasasrb}) due to overhead induced by memory coherence automation.
+Overheads are fully amortized on large matrices (e.g., \texttt{Queen\_4147})---and we show up to 2.8× speedup when automatically scaling from 1 to 4 H100 GPUs within the same node.
+XK.BLAS also demonstrates portability by executing on three distinct multi-GPU architectures (MI250X, PVC, H100).
 
 Future work within the XKRT and XK.jl ecosystem includes:
 \begin{itemize}
@@ -729,6 +747,9 @@ This research also used resources of the Argonne Leadership Computing Facility a
 \section{Matrices} \label{sec:appendix-matrices}
 
 The following figures are visualization of non-zero elements from matrices similar to the one used in Table~\ref{tab:multi-gpu}.
+
+\emph{Remark:} Sizes differ from our evaluations (Section~\ref{sec:eval}) but the sparsity patterns are identical.
+We reduced the sizes to avoid rendering artifacts.
 
 \begin{figure}[ht]
     \centering
