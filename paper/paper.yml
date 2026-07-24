@@ -13,9 +13,7 @@ authors:
   - name: Swann PERARNAU
     affiliation: 1
 affiliations:
-  - name: University
-    index: 1
   - name: Argonne National Laboratory, Lemont, IL 60439, USA
-    index: 2
+    index: 1
 date: 12 January 2026
 bibliography: ref.bib
